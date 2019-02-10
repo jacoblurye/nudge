@@ -4,7 +4,7 @@ import BadUrls from "./components/BadURLs/index";
 import TargetUrl from "./components/TargetURL/index";
 
 const App: React.SFC = () => (
-  <main style={{ width: "500px", height: "100px" }}>
+  <main style={{ width: "800px" }}>
     <Grid stretched centered columns={2} style={{ height: "300px" }}>
       <Grid.Row stretched>
         <Grid.Column width={8} verticalAlign="middle" stretched>

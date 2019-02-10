@@ -1,8 +1,8 @@
 import * as React from "react";
-import URLInputButton from "../URLInputButton";
 import { Label, Grid } from "semantic-ui-react";
-import BadURL from "../BadURL";
+import URLItem from "../URLItem";
 import browserClient, { urlToKey } from "../../browserClient";
+import URLInput from "../URLInput";
 
 /** "Bad" URLs are URLs that the user finds distracting. Once the URL is
  * registered as bad, all pages on the associated domain will redirect to
@@ -13,7 +13,7 @@ const BadURLs = () => {
 
   React.useEffect(() => {
     browserClient.onBadURLs(setBadURLs);
-  }, [badURLs.toString()]);
+  }, []);
 
   const removeURL = (url: URL) => () => {
     const filteredURLs = badURLs.filter(u => urlToKey(u) !== urlToKey(url));
@@ -29,19 +29,20 @@ const BadURLs = () => {
 
   return (
     <div>
-      <Grid.Row>
-        <Label.Group circular>
-          {badURLs.map(url => {
-            return (
-              <BadURL key={urlToKey(url)} url={url} onRemove={removeURL(url)} />
-            );
-          })}
-        </Label.Group>
-      </Grid.Row>
+      <Label.Group circular>
+        {badURLs.map(url => {
+          return (
+            <URLItem
+              key={urlToKey(url)}
+              url={url}
+              onRemove={removeURL(url)}
+              size="tiny"
+            />
+          );
+        })}
+      </Label.Group>
 
-      <Grid.Row>
-        <URLInputButton onSubmit={addURL} />
-      </Grid.Row>
+      <URLInput onSubmit={addURL} placeholder="Add a distracting URL" />
     </div>
   );
 };

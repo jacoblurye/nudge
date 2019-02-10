@@ -6,11 +6,11 @@ export default {
   /** Call a function on the user's currently open tab.
    * @param f - a callback taking the tab URL as argument
    */
-  onCurrentTab: (f: Callback<URL>) =>
-    chrome.tabs.query({ active: true, currentWindow: true }, ([tab, ..._]) => {
-      if (tab && tab.url) f(new URL(tab.url));
-    }),
-
+  onCurrentURL: (f: Callback<URL>) =>
+    chrome.tabs.query(
+      { active: true, currentWindow: true },
+      ([tab, ..._]) => tab.url && f(new URL(tab.url))
+    ),
   /** Store a URL that should be redirected to the target URL.
    * @param url - a bad URL
    */
@@ -47,15 +47,19 @@ export default {
   /** Set the target URL.
    * @param url - the URL the user wants to focus on
    */
-  setTargetURL: (url: URL) => chrome.storage.sync.set({ targetURL: url }),
+  setTargetURL: (url: URL) => chrome.storage.sync.set({ targetURL: url.href }),
 
-  /** Get the target URL.
-   * @param f - a function taking the target URL as argument
+  /** Remove the target URL.
+   * @param f - a callback to call once removal completes
    */
+  removeTargetURL: (f: Callback<void>) =>
+    chrome.storage.sync.remove(["targetURL"], () => f()),
 
-  /** Call a function on the user's current target URL
+  /** Call a function on the user's current target URL if one is set.
    * @param f - a callback taking the target URL as argument
    */
   onTargetURL: (f: Callback<URL>) =>
-    chrome.storage.sync.get(["targetURL"], res => f(res["targetURL"]))
+    chrome.storage.sync.get(["targetURL"], ({ targetURL }) => {
+      if (!!targetURL) f(new URL(targetURL));
+    })
 };
