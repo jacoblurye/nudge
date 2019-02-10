@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Grid, Card } from "semantic-ui-react";
-import browserClient from "../../browserClient";
+import { Grid } from "semantic-ui-react";
+import browser from "../../browser";
 import URLInput from "../URLInput";
 import URLItem from "../URLItem";
 
@@ -8,15 +8,15 @@ const TargetUrl = () => {
   const [targetURL, setTargetURL] = React.useState<URL | undefined>(undefined);
 
   React.useEffect(() => {
-    browserClient.onTargetURL(setTargetURL);
+    browser.targetURL.onGet(setTargetURL);
   }, []);
 
   const removeURL = () => {
-    browserClient.removeTargetURL(() => setTargetURL(undefined));
+    browser.targetURL.remove(() => setTargetURL(undefined));
   };
 
   const addURL = (url: URL) => {
-    browserClient.setTargetURL(url);
+    browser.targetURL.set(url);
     setTargetURL(url);
   };
 

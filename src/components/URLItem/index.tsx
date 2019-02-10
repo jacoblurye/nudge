@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Label, LabelProps, ItemProps } from "semantic-ui-react";
-import { urlToKey } from "../../browserClient";
+import { urlToKey } from "../../util";
 
 export interface URLItemProps extends ItemProps {
   url: URL;

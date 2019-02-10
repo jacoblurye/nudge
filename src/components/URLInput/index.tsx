@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Form, Grid, Icon, Input, InputProps, Label } from "semantic-ui-react";
-import browserClient from "../../browserClient";
+import browser from "../../browser";
 import { Callback } from "../../types";
 
 export interface URLInputProps extends InputProps {
@@ -20,7 +20,7 @@ const URLInput = ({ onSubmit, ...inputProps }: URLInputProps) => {
   };
 
   const handleLinkClick = () =>
-    browserClient.onCurrentURL(url => setInputValue(url.href));
+    browser.tabs.onCurrentURL(url => setInputValue(url.href));
 
   const handleURLSubmit = () => {
     try {

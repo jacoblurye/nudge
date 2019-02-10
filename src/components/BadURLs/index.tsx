@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Label, Grid } from "semantic-ui-react";
+import { Label } from "semantic-ui-react";
 import URLItem from "../URLItem";
-import browserClient, { urlToKey } from "../../browserClient";
+import browser from "../../browser";
 import URLInput from "../URLInput";
+import { urlToKey } from "../../util";
 
 /** "Bad" URLs are URLs that the user finds distracting. Once the URL is
  * registered as bad, all pages on the associated domain will redirect to
@@ -12,18 +13,18 @@ const BadURLs = () => {
   const [badURLs, setBadURLs] = React.useState<URL[]>([]);
 
   React.useEffect(() => {
-    browserClient.onBadURLs(setBadURLs);
+    browser.badURLs.onGet(setBadURLs);
   }, []);
 
   const removeURL = (url: URL) => () => {
     const filteredURLs = badURLs.filter(u => urlToKey(u) !== urlToKey(url));
-    browserClient.removeBadURL(url, () => setBadURLs(filteredURLs));
+    browser.badURLs.remove(url, () => setBadURLs(filteredURLs));
   };
 
   const addURL = (url: URL) => {
     if (!badURLs.find(u => urlToKey(u) === urlToKey(url))) {
       setBadURLs([...badURLs, url]);
-      browserClient.insertBadURL(url);
+      browser.badURLs.add(url);
     }
   };
 
