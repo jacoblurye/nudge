@@ -1,19 +1,20 @@
 import * as React from "react";
-import { Input, Button, Icon } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import browserClient from "../../browserClient";
 
 export interface URLInputProps {
   onSubmit: (url: URL) => void;
 }
 
-const URLInput = (props: URLInputProps) => {
+const URLInputButton = (props: URLInputProps) => {
   return (
     <Button
-      circular
+      secondary
       icon="chain"
+      content="add this page"
       onClick={() => browserClient.onCurrentTab(props.onSubmit)}
     />
   );
 };
 
-export default URLInput;
+export default URLInputButton;

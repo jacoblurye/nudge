@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Label, LabelProps } from "semantic-ui-react";
+import { urlToKey } from "../../browserClient";
 
 export interface BadURLProps {
   url: URL;
@@ -11,7 +12,7 @@ const BadURL = (props: BadURLProps) => (
     size="tiny"
     removeIcon="delete"
     onRemove={props.onRemove}
-    content={props.url.hostname}
+    content={urlToKey(props.url)}
   />
 );
 
