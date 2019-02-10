@@ -32,8 +32,20 @@ const Sidebar = (props: SidebarProps) => {
       </SemanticSidebar>
       <SemanticSidebar.Pusher>
         {props.children}
-        <Rail attached internal position="right">
-          <Button icon="bars" onClick={toggleSidebar} floated="right" />
+        <Rail
+          attached
+          internal
+          position="right"
+          style={{
+            width: "10px" /* otherwise, the rail covers other UI elements */
+          }}
+        >
+          <Button
+            circular
+            icon="bars"
+            onClick={toggleSidebar}
+            floated="right"
+          />
         </Rail>
       </SemanticSidebar.Pusher>
     </SemanticSidebar.Pushable>
