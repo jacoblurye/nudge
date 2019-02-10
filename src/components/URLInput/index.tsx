@@ -32,27 +32,29 @@ const URLInput = ({ onSubmit, ...inputProps }: URLInputProps) => {
 
   return (
     <Form onSubmit={handleURLSubmit}>
-      <Input
-        as={Grid.Column}
-        value={inputValue}
-        onChange={handleInputChange}
-        icon={
-          <Icon
-            name="chain"
-            inverted
-            circular
-            link
-            onClick={handleLinkClick}
-            color="teal"
-          />
-        }
-        {...inputProps}
-      />
-      {errorMessage && (
-        <Label pointing="above" color="purple">
-          {errorMessage}
-        </Label>
-      )}
+      <div>
+        <Input
+          as={Grid.Column}
+          value={inputValue}
+          onChange={handleInputChange}
+          icon={
+            <Icon
+              name="chain"
+              inverted
+              circular
+              link
+              onClick={handleLinkClick}
+              color="teal"
+            />
+          }
+          {...inputProps}
+        />
+        {errorMessage && (
+          <Label pointing="above" color="purple">
+            {errorMessage}
+          </Label>
+        )}
+      </div>
     </Form>
   );
 };
