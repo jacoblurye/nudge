@@ -2,6 +2,7 @@ import * as React from "react";
 import { Form, Grid, Icon, Input, InputProps, Label } from "semantic-ui-react";
 import browser from "../../browser";
 import { Callback } from "../../types";
+import { onFormValue } from "../../util";
 
 export interface URLInputProps extends InputProps {
   onSubmit: Callback<URL>;
@@ -11,13 +12,10 @@ const URLInput = ({ onSubmit, ...inputProps }: URLInputProps) => {
   const [inputValue, setInputValue] = React.useState<string>("");
   const [errorMessage, setErrorMessage] = React.useState<string>("");
 
-  const handleInputChange = (
-    _: React.SyntheticEvent,
-    { value }: InputProps
-  ) => {
+  const handleInputChange = onFormValue((value: string) => {
     setErrorMessage("");
     setInputValue(value);
-  };
+  });
 
   const handleLinkClick = () =>
     browser.tabs.onCurrentURL(url => setInputValue(url.href));
@@ -39,7 +37,14 @@ const URLInput = ({ onSubmit, ...inputProps }: URLInputProps) => {
         value={inputValue}
         onChange={handleInputChange}
         icon={
-          <Icon name="chain" inverted circular link onClick={handleLinkClick} />
+          <Icon
+            name="chain"
+            inverted
+            circular
+            link
+            onClick={handleLinkClick}
+            color="teal"
+          />
         }
         {...inputProps}
       />

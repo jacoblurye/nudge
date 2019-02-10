@@ -1,13 +1,12 @@
 import * as React from "react";
+import ConfigForm from "../../components/ConfigForm";
 import {
   Button,
-  Input,
-  Menu,
   Rail,
   Segment,
-  Sidebar as SemanticSidebar,
-  Message
+  Sidebar as SemanticSidebar
 } from "semantic-ui-react";
+import SidebarButton from "../../components/SidebarButton";
 
 export interface SidebarProps {
   children: React.ReactNode;
@@ -20,33 +19,18 @@ const Sidebar = (props: SidebarProps) => {
   return (
     <SemanticSidebar.Pushable as={Segment}>
       <SemanticSidebar
-        as={Menu}
-        animation="slide along"
+        animation="overlay"
         direction="right"
         icon="labeled"
-        vertical
         visible={visible}
-        width="wide"
+        style={{ overflow: "hidden" }}
       >
-        <Message>Under Construction :~)</Message>
+        <ConfigForm />
+        <SidebarButton icon="right angle" handleClick={toggleSidebar} />
       </SemanticSidebar>
       <SemanticSidebar.Pusher>
         {props.children}
-        <Rail
-          attached
-          internal
-          position="right"
-          style={{
-            width: "10px" /* otherwise, the rail covers other UI elements */
-          }}
-        >
-          <Button
-            circular
-            icon="bars"
-            onClick={toggleSidebar}
-            floated="right"
-          />
-        </Rail>
+        <SidebarButton icon="left angle" handleClick={toggleSidebar} />
       </SemanticSidebar.Pusher>
     </SemanticSidebar.Pushable>
   );

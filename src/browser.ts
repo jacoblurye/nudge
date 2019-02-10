@@ -13,6 +13,32 @@ export default {
       )
   },
 
+  /** Previously used redirection configurations live in browser storage under the `config` key */
+  configs: {
+    /** Add config with name `name`
+     * @param name - a name for the current configuration
+     */
+    add: (name: string) => {
+      chrome.storage.sync.get(({ configs, ...currentConfig }) => {
+        const updatedConfigs = {
+          ...(configs && JSON.parse(configs)),
+          [name]: currentConfig
+        };
+        chrome.storage.sync.set({
+          ["configs"]: JSON.stringify(updatedConfigs)
+        });
+      });
+    },
+    /** Call a function on a list of all config names
+     * @param f - a callback taking a list of config names as argument
+     */
+    onGet: (f: Callback<string[]>) =>
+      chrome.storage.sync.get(["configs"], ({ configs }) => {
+        const parsedConfigs = JSON.parse(configs);
+        f(Object.keys(parsedConfigs));
+      })
+  },
+
   /** "Bad" URLs live in browser storage as top-level keys */
   badURLs: {
     /** Store a URL that should be redirected to the target URL.
@@ -40,7 +66,7 @@ export default {
      * @param f - a callback taking a list of bad URL origins as argument
      */
     onGet: (f: Callback<URL[]>) =>
-      chrome.storage.sync.get(({ targetURL, cache, ...badURLs }) => {
+      chrome.storage.sync.get(({ targetURL, configs, ...badURLs }) => {
         const urls = Object.values(badURLs).map(url => new URL(url));
         f(urls);
       })

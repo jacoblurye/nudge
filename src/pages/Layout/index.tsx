@@ -6,7 +6,7 @@ import Sidebar from "../Sidebar";
 
 const Layout = () => {
   return (
-    <div style={{ width: "800px" }}>
+    <div style={{ width: "700px" }}>
       <Sidebar>
         <Grid stretched centered columns={2} style={{ height: "300px" }}>
           <Grid.Row stretched>
