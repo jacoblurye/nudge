@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Label } from "semantic-ui-react";
+import { Label, ItemProps } from "semantic-ui-react";
 import URLItem from "../URLItem";
 import browser from "../../browser";
 import URLInput from "../URLInput";
@@ -28,6 +28,10 @@ const BadURLs = () => {
     }
   };
 
+  // an arbitrary cutoff to keep things inside the popup boundaries
+  const urlItemSize: ItemProps["size"] =
+    badURLs.length >= 12 ? "small" : "large";
+
   return (
     <div>
       <Label.Group circular>
@@ -37,13 +41,17 @@ const BadURLs = () => {
               key={urlToKey(url)}
               url={url}
               onRemove={removeURL(url)}
-              size="tiny"
+              size={urlItemSize}
             />
           );
         })}
       </Label.Group>
 
-      <URLInput onSubmit={addURL} placeholder="Add a distracting URL" />
+      <div
+        style={badURLs.length ? { position: "relative", bottom: "-1rem" } : {}}
+      >
+        <URLInput onSubmit={addURL} placeholder={`Add a distracting URL`} />
+      </div>
     </div>
   );
 };

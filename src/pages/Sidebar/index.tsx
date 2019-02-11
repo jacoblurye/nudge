@@ -1,11 +1,6 @@
 import * as React from "react";
 import ConfigForm from "../../components/ConfigForm";
-import {
-  Button,
-  Rail,
-  Segment,
-  Sidebar as SemanticSidebar
-} from "semantic-ui-react";
+import { Sidebar as SemanticSidebar } from "semantic-ui-react";
 import SidebarButton from "../../components/SidebarButton";
 
 export interface SidebarProps {
@@ -17,7 +12,7 @@ const Sidebar = (props: SidebarProps) => {
   const toggleSidebar = () => setVisible(!visible);
 
   return (
-    <SemanticSidebar.Pushable as={Segment}>
+    <SemanticSidebar.Pushable>
       <SemanticSidebar
         animation="overlay"
         direction="right"
