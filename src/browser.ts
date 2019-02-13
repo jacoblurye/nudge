@@ -6,6 +6,8 @@ const _onGet = (f: Callback<{ [k: string]: any }>) =>
     f(JSON.parse(configs));
   });
 
+const noThen = () => null;
+
 export default {
   tabs: {
     /** Call a function on the user's currently open tab.
@@ -22,8 +24,9 @@ export default {
   configs: {
     /** Add config with name `name`
      * @param name - a name for the current configuration
+     * @param then - a callback to call once the storage operation completes
      */
-    add: (name: string, f: () => void) => {
+    add: (name: string, then: () => void = noThen) => {
       chrome.storage.sync.get(({ configs, ...currentConfig }) => {
         const updatedConfigs = {
           ...(configs && JSON.parse(configs)),
@@ -33,7 +36,7 @@ export default {
           {
             ["configs"]: JSON.stringify(updatedConfigs)
           },
-          f
+          then
         );
       });
     },
@@ -44,8 +47,9 @@ export default {
       _onGet(configs => f(Object.keys(configs))),
     /** Push a named config to storage
      * @param name - name of the config to push
+     * @param then - a callback to call once the storage operation completes
      */
-    push: (name: string) =>
+    push: (name: string, then: () => void = noThen) =>
       _onGet(configs => {
         if (name in configs) {
           const updateStoraged = {
@@ -53,7 +57,7 @@ export default {
             ...configs[name]
           };
           chrome.storage.sync.clear(() =>
-            chrome.storage.sync.set(updateStoraged)
+            chrome.storage.sync.set(updateStoraged, then)
           );
         }
       })
@@ -64,16 +68,16 @@ export default {
     /** Store a URL that should be redirected to the target URL.
      * @param url - a bad URL
      */
-    add: (url: URL) => {
+    add: (url: URL, then: () => void = noThen) => {
       const urlKV = { [urlToKey(url)]: url.href };
-      chrome.storage.sync.set(urlKV);
+      chrome.storage.sync.set(urlKV, then);
     },
     /** Remove a bad URL
      * @param url - a url to remove from storage
-     * @param f - a callback to call once removal completes
+     * @param then - a callback to call once removal completes
      */
-    remove: (url: URL, f: Callback<void>) =>
-      chrome.storage.sync.remove([urlToKey(url)], () => f()),
+    remove: (url: URL, then: () => void = noThen) =>
+      chrome.storage.sync.remove([urlToKey(url)], then),
     /** Check if a URL is bad and pass the result of the test to a callback
      * @param url - a URL to test for badness
      * @param f - a callback taking whether or not the url is bad as argument
@@ -96,13 +100,15 @@ export default {
   targetURL: {
     /** Set the target URL.
      * @param url - the URL the user wants to focus on
+     * @param then - a callback to call once the storage operation completes
      */
-    set: (url: URL) => chrome.storage.sync.set({ targetURL: url.href }),
+    set: (url: URL, then: () => void = noThen) =>
+      chrome.storage.sync.set({ targetURL: url.href }, then),
     /** Remove the target URL.
-     * @param f - a callback to call once removal completes
+     * @param then - a callback to call once the storage operation completes
      */
-    remove: (f: Callback<void>) =>
-      chrome.storage.sync.remove(["targetURL"], () => f()),
+    remove: (then: () => void) =>
+      chrome.storage.sync.remove(["targetURL"], then),
     /** Call a function on the user's current target URL if one is set.
      * @param f - a callback taking the target URL as argument
      */
