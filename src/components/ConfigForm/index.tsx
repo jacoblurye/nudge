@@ -3,22 +3,27 @@ import { Form, Icon, Segment, Header } from "semantic-ui-react";
 import { onFormValue } from "../../util";
 import browser from "../../browser";
 
+export interface ConfigFormProps {
+  refreshConfig: () => void;
+}
+
 const ConfigForm = () => {
   const [names, setNames] = React.useState<string[]>([]);
   const [newName, setNewName] = React.useState<string>("");
 
-  React.useEffect(
-    () =>
-      browser.configs.onGet(existingNames => {
-        setNames(existingNames);
-      }),
-    []
-  );
+  const loadNames = () =>
+    browser.configs.onGet(existingNames => {
+      setNames(existingNames);
+    });
+
+  React.useEffect(() => loadNames(), []);
 
   const updateName = onFormValue(setNewName);
 
+  const selectConfig = onFormValue(browser.configs.push);
+
   const saveNewConfig = () => {
-    browser.configs.add(newName);
+    browser.configs.add(newName, loadNames);
     setNewName("");
   };
 
@@ -32,7 +37,7 @@ const ConfigForm = () => {
           clearable
           fluid
           selection
-          onChange={console.log}
+          onChange={selectConfig}
           options={names.map(value => ({ value, text: value }))}
         />
       </Form>

@@ -1,6 +1,11 @@
 import { Callback } from "./types";
 import { urlToKey } from "./util";
 
+const _onGet = (f: Callback<{ [k: string]: any }>) =>
+  chrome.storage.sync.get(["configs"], ({ configs }) => {
+    f(JSON.parse(configs));
+  });
+
 export default {
   tabs: {
     /** Call a function on the user's currently open tab.
@@ -18,24 +23,39 @@ export default {
     /** Add config with name `name`
      * @param name - a name for the current configuration
      */
-    add: (name: string) => {
+    add: (name: string, f: () => void) => {
       chrome.storage.sync.get(({ configs, ...currentConfig }) => {
         const updatedConfigs = {
           ...(configs && JSON.parse(configs)),
           [name]: currentConfig
         };
-        chrome.storage.sync.set({
-          ["configs"]: JSON.stringify(updatedConfigs)
-        });
+        chrome.storage.sync.set(
+          {
+            ["configs"]: JSON.stringify(updatedConfigs)
+          },
+          f
+        );
       });
     },
     /** Call a function on a list of all config names
      * @param f - a callback taking a list of config names as argument
      */
     onGet: (f: Callback<string[]>) =>
-      chrome.storage.sync.get(["configs"], ({ configs }) => {
-        const parsedConfigs = JSON.parse(configs);
-        f(Object.keys(parsedConfigs));
+      _onGet(configs => f(Object.keys(configs))),
+    /** Push a named config to storage
+     * @param name - name of the config to push
+     */
+    push: (name: string) =>
+      _onGet(configs => {
+        if (name in configs) {
+          const updateStoraged = {
+            configs: JSON.stringify({ ...configs }),
+            ...configs[name]
+          };
+          chrome.storage.sync.clear(() =>
+            chrome.storage.sync.set(updateStoraged)
+          );
+        }
       })
   },
 
