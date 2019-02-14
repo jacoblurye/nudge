@@ -1,34 +1,38 @@
 import * as React from "react";
 import { Form, Grid, Icon, Input, InputProps, Label } from "semantic-ui-react";
-import browser from "../../browser";
-import { Callback } from "../../types";
-import { onFormValue } from "../../util";
+import AppStateContext from "../AppStateContext";
+import urlToKey from "../../util/urlToKey";
+import useCurrentURL from "../../hooks/useCurrentURL";
 
-export interface URLInputProps extends InputProps {
-  onSubmit: Callback<URL>;
-}
+const TargetURLInput = (inputProps: InputProps) => {
+  const { appState, addTargetURL } = React.useContext(AppStateContext)!;
 
-const URLInput = ({ onSubmit, ...inputProps }: URLInputProps) => {
   const [inputValue, setInputValue] = React.useState<string>("");
   const [errorMessage, setErrorMessage] = React.useState<string>("");
 
-  const handleInputChange = onFormValue((value: string) => {
+  const handleInputChange = ({ value }: InputProps) => {
     setErrorMessage("");
     setInputValue(value);
-  });
-
-  const handleLinkClick = () =>
-    browser.tabs.onCurrentURL(url => setInputValue(url.href));
+  };
 
   const handleURLSubmit = () => {
     try {
-      const url = new URL(inputValue);
-      onSubmit(url);
-      setInputValue("");
+      const url = inputValue.startsWith("http")
+        ? new URL(inputValue)
+        : new URL(`http://${inputValue}`);
+
+      const urlKey = urlToKey(url);
+      if (appState.badURLs.find(u => urlToKey(u) === urlKey)) {
+        setErrorMessage("You can't target a page that you've blocked!");
+      } else {
+        addTargetURL(url);
+      }
     } catch {
       setErrorMessage("Please enter a valid URL!");
     }
   };
+
+  const currentURL = useCurrentURL();
 
   return (
     <Form onSubmit={handleURLSubmit}>
@@ -39,12 +43,9 @@ const URLInput = ({ onSubmit, ...inputProps }: URLInputProps) => {
           onChange={handleInputChange}
           icon={
             <Icon
-              name="chain"
-              inverted
-              circular
               link
-              onClick={handleLinkClick}
-              color="teal"
+              name="chain"
+              onClick={() => currentURL && setInputValue(currentURL.href)}
             />
           }
           {...inputProps}
@@ -59,4 +60,4 @@ const URLInput = ({ onSubmit, ...inputProps }: URLInputProps) => {
   );
 };
 
-export default URLInput;
+export default TargetURLInput;

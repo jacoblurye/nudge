@@ -26,7 +26,6 @@ const ConfigForm = () => {
       </Header>
       <Form as={Segment} attached>
         <Form.Dropdown
-          clearable
           fluid
           selection
           onChange={pushNewConfig}
