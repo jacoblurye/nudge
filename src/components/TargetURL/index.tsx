@@ -1,37 +1,26 @@
 import * as React from "react";
 import { Grid } from "semantic-ui-react";
-import browser from "../../browser";
 import URLInput from "../URLInput";
 import URLItem from "../URLItem";
+import { StorageContext } from "../../App";
 
 const TargetUrl = () => {
-  const [targetURL, setTargetURL] = React.useState<URL | undefined>(undefined);
-
-  React.useEffect(() => {
-    browser.targetURL.onGet(setTargetURL);
-  }, []);
-
-  const removeURL = () => {
-    browser.targetURL.remove(() => setTargetURL(undefined));
-  };
-
-  const addURL = (url: URL) => {
-    browser.targetURL.set(url);
-    setTargetURL(url);
-  };
+  const { targetURL, removeTargetURL, addTargetURL } = React.useContext(
+    StorageContext
+  )!;
 
   return targetURL ? (
     <Grid.Row>
       <URLItem
         url={targetURL}
-        onRemove={removeURL}
+        onRemove={removeTargetURL}
         size="huge"
         color="teal"
         circular
       />
     </Grid.Row>
   ) : (
-    <URLInput onSubmit={addURL} placeholder="Set a target URL" />
+    <URLInput onSubmit={addTargetURL} placeholder="Set a target URL" />
   );
 };
 
