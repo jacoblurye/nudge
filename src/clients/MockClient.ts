@@ -1,5 +1,5 @@
 import { AppState, Client, Callback } from "../types";
-import { initState } from "../components/AppStateContext";
+import { initState } from "../hooks/useAppState";
 
 export default class MockClient implements Client {
   state: AppState;

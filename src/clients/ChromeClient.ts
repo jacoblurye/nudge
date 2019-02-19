@@ -1,5 +1,5 @@
 import { AppState, Callback, Client } from "../types";
-import { initState } from "../components/AppStateContext";
+import { initState } from "../hooks/useAppState";
 import URLCollection from "../util/URLCollection";
 
 interface Storage {
