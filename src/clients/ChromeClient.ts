@@ -1,5 +1,4 @@
-import { AppState, Callback } from "../types";
-import { Client } from "./types";
+import { AppState, Callback, Client } from "../types";
 import { initState } from "../components/AppStateContext";
 import URLCollection from "../util/URLCollection";
 

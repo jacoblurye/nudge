@@ -8,3 +8,8 @@ export interface AppState {
   targetURL: URL | undefined;
   badURLs: URLCollection;
 }
+
+export interface Client {
+  set: Callback<AppState>;
+  get: Callback<Callback<AppState>>;
+}
