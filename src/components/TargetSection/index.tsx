@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Segment, Header, Grid, Icon } from "semantic-ui-react";
 import TargetURLInput from "../TargetURLInput";
 import AppStateContext from "../AppStateContext";
 import TargetURLItem from "../TargetURLItem";
