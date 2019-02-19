@@ -18,8 +18,7 @@ const BlockedSection = () => {
 
   const currentIsTarget =
     currentURL && targetURL && urlToKey(currentURL) === urlToKey(targetURL);
-  const currentIsBad =
-    currentURL && badURLs.find(u => urlToKey(u) === urlToKey(currentURL));
+  const currentIsBad = currentURL && badURLs.contains(currentURL);
 
   return (
     <div style={{ width: "250px" }}>

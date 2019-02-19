@@ -1,7 +1,7 @@
 import { AppState, Callback } from "../types";
-import urlToKey from "../util/urlToKey";
 import { Client } from "./types";
 import { initState } from "../components/AppStateContext";
+import URLCollection from "../util/URLCollection";
 
 interface Storage {
   enabled: boolean;
@@ -13,10 +13,7 @@ export default class ChromeClient implements Client {
   _stateToStorage(state: AppState): Storage {
     const enabled = state.enabled;
     const targetURL = state.targetURL ? state.targetURL.href : undefined;
-    const badURLs = state.badURLs.reduce(
-      (topLevelObject, url) => ({ ...topLevelObject, [urlToKey(url)]: url }),
-      {}
-    );
+    const badURLs = state.badURLs.toObject();
     return { enabled, targetURL, ...badURLs };
   }
 
@@ -32,9 +29,7 @@ export default class ChromeClient implements Client {
     ...badURLs
   }: Storage): AppState {
     const boxedTargetURL = targetURL ? new URL(targetURL) : undefined;
-    const boxedBadURLs = Object.values<string>(badURLs).map(
-      (url: string) => new URL(url)
-    );
+    const boxedBadURLs = new URLCollection(Object.values<string>(badURLs));
 
     return {
       loaded: true,

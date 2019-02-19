@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Form, Grid, Icon, Input, InputProps, Label } from "semantic-ui-react";
 import AppStateContext from "../AppStateContext";
-import urlToKey from "../../util/urlToKey";
 import useCurrentURL from "../../hooks/useCurrentURL";
+import buildURL from "./buildURL";
 
 const TargetURLInput = (inputProps: InputProps) => {
   const { appState, addTargetURL } = React.useContext(AppStateContext)!;
@@ -17,18 +17,10 @@ const TargetURLInput = (inputProps: InputProps) => {
 
   const handleURLSubmit = () => {
     try {
-      const url = inputValue.startsWith("http")
-        ? new URL(inputValue)
-        : new URL(`http://${inputValue}`);
-
-      const urlKey = urlToKey(url);
-      if (appState.badURLs.find(u => urlToKey(u) === urlKey)) {
-        setErrorMessage("You can't target a page that you've blocked!");
-      } else {
-        addTargetURL(url);
-      }
-    } catch {
-      setErrorMessage("Please enter a valid URL!");
+      const url = buildURL(inputValue, appState.badURLs);
+      addTargetURL(url);
+    } catch (err) {
+      setErrorMessage(err);
     }
   };
 

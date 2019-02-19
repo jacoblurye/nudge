@@ -18,9 +18,9 @@ const BlockedURLAccordion = () => {
         Manage blocked pages
       </Accordion.Title>
       <Accordion.Content active={active}>
-        {badURLs.length > 0 ? (
+        {badURLs.urls.length > 0 ? (
           <Segment.Group>
-            {badURLs.map(url => (
+            {badURLs.urls.map(url => (
               <URLItem
                 key={url.href}
                 url={url}

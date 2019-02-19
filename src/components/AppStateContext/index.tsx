@@ -1,7 +1,7 @@
 import * as React from "react";
-import urlToKey from "../../util/urlToKey";
 import { AppState, Callback } from "../../types";
 import { Client } from "../../client/types";
+import URLCollection from "../../util/URLCollection";
 
 interface AppStateProps {
   appState: AppState;
@@ -15,7 +15,7 @@ interface AppStateProps {
 export const initState = {
   loaded: false,
   enabled: true,
-  badURLs: [],
+  badURLs: new URLCollection([]),
   targetURL: undefined
 };
 
@@ -23,7 +23,7 @@ export function makeAppStateProps(storage: Client): AppStateProps {
   const [appState, setAppState] = React.useState<AppState>(initState);
 
   React.useEffect(
-    () => storage.get(appState => setAppState({ ...appState, loaded: true })),
+    () => storage.get(appState => setAppState({ ...appState })),
     []
   );
 
@@ -41,20 +41,11 @@ export function makeAppStateProps(storage: Client): AppStateProps {
   const clearTargetURL = () => setAndStoreState({ targetURL: undefined });
 
   const addBadURL = (badURL: URL) => {
-    const urlKey = urlToKey(badURL);
-    if (!appState.badURLs.find(url => urlToKey(url) === urlKey)) {
-      setAndStoreState({ badURLs: [badURL, ...appState.badURLs] });
-    }
+    setAndStoreState({ badURLs: appState.badURLs.add(badURL) });
   };
 
   const removeBadURL = (badURL: URL) => {
-    const urlKey = urlToKey(badURL);
-    const loc = appState.badURLs.findIndex(url => urlToKey(url) === urlKey);
-    if (loc > -1) {
-      const below = appState.badURLs.slice(0, loc);
-      const above = appState.badURLs.slice(loc + 1);
-      setAndStoreState({ badURLs: [...below, ...above] });
-    }
+    setAndStoreState({ badURLs: appState.badURLs.remove(badURL) });
   };
 
   return {
