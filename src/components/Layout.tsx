@@ -8,9 +8,9 @@ import {
   Transition,
   Icon
 } from "semantic-ui-react";
-import BlockedSection from "../../components/BlockedSection";
-import TargetSection from "../../components/TargetSection";
-import AppStateContext from "../AppStateContext";
+import BlockedSection from "../components/BlockedSection";
+import TargetSection from "../components/TargetSection";
+import AppStateContext from "./AppStateContext";
 
 const Layout = () => {
   const { appState, toggleEnabled } = React.useContext(AppStateContext)!;

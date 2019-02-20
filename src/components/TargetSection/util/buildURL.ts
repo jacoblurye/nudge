@@ -1,4 +1,4 @@
-import URLCollection from "../../util/URLCollection";
+import URLCollection from "../../../util/URLCollection";
 
 const buildURL = (href: string, blockedURLs: URLCollection) => {
   let url;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AppState, Callback } from "../../types";
+import { AppState, Callback } from "../types";
 
 export interface AppStateProps {
   appState: AppState;

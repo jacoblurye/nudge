@@ -2,7 +2,7 @@ import * as React from "react";
 import { Form, Grid, Icon, Input, InputProps, Label } from "semantic-ui-react";
 import AppStateContext from "../AppStateContext";
 import useCurrentURL from "../../hooks/useCurrentURL";
-import buildURL from "./buildURL";
+import buildURL from "./util/buildURL";
 
 const TargetURLInput = (inputProps: InputProps) => {
   const { appState, addTargetURL } = React.useContext(AppStateContext)!;

@@ -1,7 +1,7 @@
 import * as React from "react";
-import AppStateContext from "../AppStateContext/index";
+import AppStateContext from "../AppStateContext";
 import { Modal, Segment, Message, Button, Icon } from "semantic-ui-react";
-import URLItem from "./URLItem/index";
+import BlockedURLItem from "./BlockedURLItem";
 
 const BlockedURLModal = () => {
   const { appState, removeBlockedURL } = React.useContext(AppStateContext)!;
@@ -23,7 +23,7 @@ const BlockedURLModal = () => {
         {blockedURLs.urls.length > 0 ? (
           <Segment.Group>
             {blockedURLs.urls.map(url => (
-              <URLItem
+              <BlockedURLItem
                 key={url.href}
                 url={url}
                 removeURL={() => removeBlockedURL(url)}

@@ -1,16 +1,9 @@
 import * as React from "react";
-import {
-  Button,
-  Header,
-  Message,
-  Item,
-  Label,
-  Loader
-} from "semantic-ui-react";
+import { Button, Header, Item, Label, Loader } from "semantic-ui-react";
 import urlToKey from "../../util/urlToKey";
 import useCurrentURL from "../../hooks/useCurrentURL";
 import AppStateContext from "../AppStateContext";
-import BlockedURLModal from "../BlockedURLModal";
+import BlockedURLModal from "./BlockedURLModal";
 
 /** Blocked URLs are URLs that the user finds distracting. Once the URL is
  * registered as blocked, all pages on the associated domain will redirect to
