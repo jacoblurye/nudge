@@ -14,7 +14,7 @@ const TargetSection = () => {
   return targetURL ? (
     <TargetURLItem targetURL={targetURL} />
   ) : (
-    <TargetURLInput placeholder="My Target Page" size="huge" />
+    <TargetURLInput placeholder="Your Target Page" size="huge" />
   );
 };
 

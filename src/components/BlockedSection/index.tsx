@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Button, Header, Icon, Item, Label } from "semantic-ui-react";
+import {
+  Button,
+  Header,
+  Message,
+  Item,
+  Label,
+  Loader
+} from "semantic-ui-react";
 import urlToKey from "../../util/urlToKey";
 import useCurrentURL from "../../hooks/useCurrentURL";
 import AppStateContext from "../AppStateContext";
@@ -16,30 +23,35 @@ const BlockedSection = () => {
   const { appState, addBlockedURL } = React.useContext(AppStateContext)!;
   const { targetURL, blockedURLs } = appState;
 
+  if (!currentURL) return <Loader active />;
+
   const currentIsTarget =
-    currentURL && targetURL && urlToKey(currentURL) === urlToKey(targetURL);
-  const currentIsBlocked = currentURL && blockedURLs.contains(currentURL);
+    targetURL && urlToKey(currentURL) === urlToKey(targetURL);
+  const currentIsBlocked = blockedURLs.contains(currentURL);
+
+  const thisPage = urlToKey(currentURL);
 
   return (
-    <div style={{ width: "250px" }}>
+    <div>
       {currentIsBlocked ? (
         <>
           <Header as="h5">
             <Item>
-              <Label size="large">{urlToKey(currentURL!)}</Label>
+              <Label size="large">{thisPage}</Label>
             </Item>
             will redirect to your target page.
           </Header>
         </>
+      ) : currentIsTarget ? (
+        <Header as="h4">You're on your target page.</Header>
       ) : (
-        <Button
-          primary
-          onClick={addCurrentURL}
-          size="large"
-          disabled={currentIsTarget}
-        >
-          <Icon name="arrow up" />
-          Redirect this page to your target
+        <Button primary fluid onClick={addCurrentURL}>
+          <Item>block &amp; redirect</Item>
+          <div>
+            <Label color="blue" size="huge">
+              {thisPage}
+            </Label>
+          </div>
         </Button>
       )}
 
