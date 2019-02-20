@@ -6,8 +6,8 @@ export interface AppStateProps {
   toggleEnabled: () => void;
   addTargetURL: Callback<URL>;
   clearTargetURL: () => void;
-  addBadURL: Callback<URL>;
-  removeBadURL: Callback<URL>;
+  addBlockedURL: Callback<URL>;
+  removeBlockedURL: Callback<URL>;
 }
 
 const AppStateContext = React.createContext<AppStateProps | undefined>(

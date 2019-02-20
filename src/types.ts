@@ -6,7 +6,7 @@ export interface AppState {
   loaded: boolean;
   enabled: boolean;
   targetURL: URL | undefined;
-  badURLs: URLCollection;
+  blockedURLs: URLCollection;
 }
 
 export interface Client {

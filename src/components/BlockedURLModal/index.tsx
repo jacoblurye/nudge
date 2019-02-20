@@ -4,8 +4,8 @@ import { Modal, Segment, Message, Button, Icon } from "semantic-ui-react";
 import URLItem from "./URLItem/index";
 
 const BlockedURLModal = () => {
-  const { appState, removeBadURL } = React.useContext(AppStateContext)!;
-  const { badURLs } = appState;
+  const { appState, removeBlockedURL } = React.useContext(AppStateContext)!;
+  const { blockedURLs } = appState;
 
   return (
     <Modal
@@ -20,13 +20,13 @@ const BlockedURLModal = () => {
     >
       <Modal.Header>Manage Blocked Pages</Modal.Header>
       <Modal.Content>
-        {badURLs.urls.length > 0 ? (
+        {blockedURLs.urls.length > 0 ? (
           <Segment.Group>
-            {badURLs.urls.map(url => (
+            {blockedURLs.urls.map(url => (
               <URLItem
                 key={url.href}
                 url={url}
-                removeURL={() => removeBadURL(url)}
+                removeURL={() => removeBlockedURL(url)}
               />
             ))}
           </Segment.Group>

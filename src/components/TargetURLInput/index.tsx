@@ -17,7 +17,7 @@ const TargetURLInput = (inputProps: InputProps) => {
 
   const handleURLSubmit = () => {
     try {
-      const url = buildURL(inputValue, appState.badURLs);
+      const url = buildURL(inputValue, appState.blockedURLs);
       addTargetURL(url);
     } catch (err) {
       setErrorMessage(err);

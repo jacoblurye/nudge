@@ -5,15 +5,15 @@ import URLCollection from "../util/URLCollection";
 interface Storage {
   enabled: boolean;
   targetURL: string | undefined;
-  [badURL: string]: any;
+  [blockedURL: string]: any;
 }
 
 export default class ChromeClient implements Client {
   _stateToStorage(state: AppState): Storage {
     const enabled = state.enabled;
     const targetURL = state.targetURL ? state.targetURL.href : undefined;
-    const badURLs = state.badURLs.toObject();
-    return { enabled, targetURL, ...badURLs };
+    const blockedURLs = state.blockedURLs.toObject();
+    return { enabled, targetURL, ...blockedURLs };
   }
 
   set(state: AppState) {
@@ -25,16 +25,18 @@ export default class ChromeClient implements Client {
     loaded,
     enabled,
     targetURL,
-    ...badURLs
+    ...blockedURLs
   }: Storage): AppState {
     const boxedTargetURL = targetURL ? new URL(targetURL) : undefined;
-    const boxedBadURLs = new URLCollection(Object.values<string>(badURLs));
+    const boxedBlockedURLs = new URLCollection(
+      Object.values<string>(blockedURLs)
+    );
 
     return {
       loaded: true,
       enabled,
       targetURL: boxedTargetURL,
-      badURLs: boxedBadURLs
+      blockedURLs: boxedBlockedURLs
     };
   }
 

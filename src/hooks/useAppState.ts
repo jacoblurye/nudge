@@ -6,7 +6,7 @@ import { AppStateProps } from "../components/AppStateContext";
 export const initState = {
   loaded: true,
   enabled: true,
-  badURLs: new URLCollection([]),
+  blockedURLs: new URLCollection([]),
   targetURL: undefined
 };
 
@@ -30,12 +30,12 @@ export default function useAppState(client: Client): AppStateProps {
 
   const clearTargetURL = () => setAndStoreState({ targetURL: undefined });
 
-  const addBadURL = (badURL: URL) => {
-    setAndStoreState({ badURLs: appState.badURLs.add(badURL) });
+  const addBlockedURL = (blockedURL: URL) => {
+    setAndStoreState({ blockedURLs: appState.blockedURLs.add(blockedURL) });
   };
 
-  const removeBadURL = (badURL: URL) => {
-    setAndStoreState({ badURLs: appState.badURLs.remove(badURL) });
+  const removeBlockedURL = (blockedURL: URL) => {
+    setAndStoreState({ blockedURLs: appState.blockedURLs.remove(blockedURL) });
   };
 
   return {
@@ -43,7 +43,7 @@ export default function useAppState(client: Client): AppStateProps {
     toggleEnabled,
     addTargetURL,
     clearTargetURL,
-    addBadURL,
-    removeBadURL
+    addBlockedURL,
+    removeBlockedURL
   };
 }

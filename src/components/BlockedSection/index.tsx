@@ -5,24 +5,24 @@ import useCurrentURL from "../../hooks/useCurrentURL";
 import AppStateContext from "../AppStateContext";
 import BlockedURLModal from "../BlockedURLModal";
 
-/** "Bad" URLs are URLs that the user finds distracting. Once the URL is
- * registered as bad, all pages on the associated domain will redirect to
+/** Blocked URLs are URLs that the user finds distracting. Once the URL is
+ * registered as blocked, all pages on the associated domain will redirect to
  * the "Target" url, if one is defined.
  */
 const BlockedSection = () => {
   const currentURL = useCurrentURL();
-  const addCurrentURL = () => currentURL && addBadURL(currentURL);
+  const addCurrentURL = () => currentURL && addBlockedURL(currentURL);
 
-  const { appState, addBadURL } = React.useContext(AppStateContext)!;
-  const { targetURL, badURLs } = appState;
+  const { appState, addBlockedURL } = React.useContext(AppStateContext)!;
+  const { targetURL, blockedURLs } = appState;
 
   const currentIsTarget =
     currentURL && targetURL && urlToKey(currentURL) === urlToKey(targetURL);
-  const currentIsBad = currentURL && badURLs.contains(currentURL);
+  const currentIsBlocked = currentURL && blockedURLs.contains(currentURL);
 
   return (
     <div style={{ width: "250px" }}>
-      {currentIsBad ? (
+      {currentIsBlocked ? (
         <>
           <Header as="h5">
             <Item>
