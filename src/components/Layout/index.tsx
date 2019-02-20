@@ -8,7 +8,7 @@ const Layout = () => {
   const { appState, toggleEnabled } = React.useContext(AppStateContext)!;
 
   return (
-    <Grid padded columns={2}>
+    <Grid padded columns={2} style={{ width: "400px" }}>
       <Grid.Row verticalAlign="middle">
         <Grid.Column>
           <Header size="medium">Nudge</Header>

@@ -3,7 +3,7 @@ import { Button, Header, Icon, Item, Label } from "semantic-ui-react";
 import urlToKey from "../../util/urlToKey";
 import useCurrentURL from "../../hooks/useCurrentURL";
 import AppStateContext from "../AppStateContext";
-import BlockedURLAccordion from "../BlockedURLAccordion";
+import BlockedURLModal from "../BlockedURLModal";
 
 /** "Bad" URLs are URLs that the user finds distracting. Once the URL is
  * registered as bad, all pages on the associated domain will redirect to
@@ -43,7 +43,7 @@ const BlockedSection = () => {
         </Button>
       )}
 
-      <BlockedURLAccordion />
+      <BlockedURLModal />
     </div>
   );
 };
