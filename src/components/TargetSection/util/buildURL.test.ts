@@ -1,5 +1,5 @@
 import buildURL from "./buildURL";
-import URLCollection from "../../util/URLCollection";
+import URLCollection from "../../../util/URLCollection";
 
 const blockedURL = "https://www.test.com";
 const coll = new URLCollection([blockedURL]);
