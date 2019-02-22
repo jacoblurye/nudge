@@ -16,8 +16,8 @@ const Layout = () => {
   const { appState, toggleEnabled } = React.useContext(AppStateContext)!;
 
   return (
-    <div>
-      <Grid padded columns={2} style={{ width: "400px" }}>
+    <div style={{ maxWidth: "350px" }}>
+      <Grid padded columns={2}>
         <Grid.Row verticalAlign="middle">
           <Grid.Column>
             <Header size="medium">Nudge</Header>
@@ -32,13 +32,17 @@ const Layout = () => {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      <Grid as={Dimmer.Dimmable} padded columns={2} style={{ width: "400px" }}>
-        <Grid.Row centered>
-          <TargetSection />
+      <Grid as={Dimmer.Dimmable} columns={1} centered padded>
+        <Grid.Row style={{ height: "5em" }}>
+          <Grid.Column>
+            <TargetSection />
+          </Grid.Column>
         </Grid.Row>
         <Divider />
-        <Grid.Row centered>
-          <BlockedSection />
+        <Grid.Row style={{ height: "9em" }}>
+          <Grid.Column>
+            <BlockedSection />
+          </Grid.Column>
         </Grid.Row>
         <Transition visible={!appState.enabled}>
           <Dimmer active={!appState.enabled}>

@@ -10,7 +10,7 @@ const TargetURLItem = ({ targetURL }: TargetURLItemProps) => {
   const { clearTargetURL } = React.useContext(AppStateContext)!;
 
   return (
-    <Segment padded>
+    <Segment color="blue">
       <Grid size="tiny" columns={2} verticalAlign="middle" textAlign="center">
         <Grid.Column
           floated="left"

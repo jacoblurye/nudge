@@ -2,6 +2,7 @@ import * as React from "react";
 import AppStateContext from "../AppStateContext";
 import { Modal, Segment, Message, Button, Icon } from "semantic-ui-react";
 import BlockedURLItem from "./BlockedURLItem";
+import centeringCSS from "../../util/centeringCSS";
 
 const BlockedURLModal = () => {
   const { appState, removeBlockedURL } = React.useContext(AppStateContext)!;
@@ -10,12 +11,21 @@ const BlockedURLModal = () => {
   return (
     <Modal
       trigger={
-        <Segment basic fluid style={{ margin: 0 }}>
-          <Button as="a" basic fluid size="mini">
-            <Icon name="setting" />
-            Manage blocked pages
-          </Button>
-        </Segment>
+        <Button
+          as="a"
+          basic
+          fluid
+          size="mini"
+          style={{
+            position: "absolute",
+            bottom: ".1rem",
+            width: "20em",
+            ...centeringCSS
+          }}
+        >
+          <Icon name="setting" />
+          Manage blocked pages
+        </Button>
       }
     >
       <Modal.Header>Manage Blocked Pages</Modal.Header>
