@@ -44,8 +44,8 @@ const Layout = () => {
             <BlockedSection />
           </Grid.Column>
         </Grid.Row>
-        <Transition visible={!appState.enabled}>
-          <Dimmer active={!appState.enabled}>
+        <Transition visible={appState.enabled === false}>
+          <Dimmer active={appState.enabled === false}>
             <Icon name="moon" />
             Nudge is disabled
           </Dimmer>
