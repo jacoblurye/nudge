@@ -1,0 +1,4 @@
+html,
+html *:not(i) {
+  font-family: "Inconsolata", monospace !important;
+}
