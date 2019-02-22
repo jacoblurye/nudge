@@ -13,14 +13,13 @@ export default class ChromeClient implements Client {
   _stateToStorage(state: AppState): Storage {
     const enabled = state.enabled;
     const targetURL = state.targetURL ? state.targetURL.href : undefined;
-    console.log(state.blockedURLs, state.blockedURLs.toObject());
     const blockedURLs = state.blockedURLs.toObject();
     return { enabled, targetURL, ...blockedURLs };
   }
 
   set(state: AppState) {
     const storage = this._stateToStorage(state);
-    chrome.storage.sync.set(storage);
+    chrome.storage.sync.clear(() => chrome.storage.sync.set(storage));
   }
 
   _storageToState({

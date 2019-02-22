@@ -10,9 +10,18 @@ const TargetURLInput = (inputProps: InputProps) => {
   const [inputValue, setInputValue] = React.useState<string>("");
   const [errorMessage, setErrorMessage] = React.useState<string>("");
 
-  const handleInputChange = ({ value }: InputProps) => {
+  const handleInputChange = (
+    _: React.SyntheticEvent,
+    { value }: InputProps
+  ) => {
     setErrorMessage("");
     setInputValue(value);
+  };
+
+  const checkForSubmit = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleURLSubmit();
+    }
   };
 
   const handleURLSubmit = () => {
@@ -27,28 +36,28 @@ const TargetURLInput = (inputProps: InputProps) => {
   const currentURL = useCurrentURL();
 
   return (
-    <Form onSubmit={handleURLSubmit}>
-      <div>
-        <Input
-          as={Grid.Column}
-          value={inputValue}
-          onChange={handleInputChange}
-          icon={
-            <Icon
-              link
-              name="chain"
-              onClick={() => currentURL && setInputValue(currentURL.href)}
-            />
-          }
-          {...inputProps}
-        />
-        {errorMessage && (
-          <Label pointing="above" color="purple">
-            {errorMessage}
-          </Label>
-        )}
-      </div>
-    </Form>
+    <div style={{ textAlign: "center" }}>
+      <Input
+        fluid
+        as={Grid.Column}
+        value={inputValue}
+        onKeyDown={checkForSubmit}
+        onChange={handleInputChange}
+        icon={
+          <Icon
+            link
+            name="chain"
+            onClick={() => currentURL && setInputValue(currentURL.href)}
+          />
+        }
+        {...inputProps}
+      />
+      {errorMessage && (
+        <Label pointing="above" color="purple">
+          {errorMessage}
+        </Label>
+      )}
+    </div>
   );
 };
 
