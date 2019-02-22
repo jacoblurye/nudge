@@ -1,4 +1,5 @@
 import uniqBy from "lodash/uniqBy";
+import zipObject from "lodash/zipObject";
 import urlToKey from "./urlToKey";
 
 export default class URLCollection {
@@ -35,9 +36,6 @@ export default class URLCollection {
   }
 
   toObject() {
-    return this.urls.reduce(
-      (acc, url, i) => ({ ...acc, [this.keys[i]]: url }),
-      {}
-    );
+    return zipObject(this.keys, this.urls.map(url => url.href));
   }
 }

@@ -1,3 +1,4 @@
+import mapValues from "lodash/mapValues";
 import { AppState, Callback, Client } from "../types";
 import { initState } from "../hooks/useAppState";
 import URLCollection from "../util/URLCollection";
@@ -12,13 +13,14 @@ export default class ChromeClient implements Client {
   _stateToStorage(state: AppState): Storage {
     const enabled = state.enabled;
     const targetURL = state.targetURL ? state.targetURL.href : undefined;
+    console.log(state.blockedURLs, state.blockedURLs.toObject());
     const blockedURLs = state.blockedURLs.toObject();
     return { enabled, targetURL, ...blockedURLs };
   }
 
   set(state: AppState) {
     const storage = this._stateToStorage(state);
-    chrome.storage.sync.set({ state: JSON.stringify(storage) });
+    chrome.storage.sync.set(storage);
   }
 
   _storageToState({
@@ -41,14 +43,20 @@ export default class ChromeClient implements Client {
   }
 
   get(f: Callback<AppState>) {
-    chrome.storage.sync.get(["state"], ({ state }) => {
+    chrome.storage.sync.get(state => {
       // state hasn't been set yet, so initialize it
       if (!state) {
         this.set(initState);
         f(initState);
       }
-      const storageState = JSON.parse(state);
-      f(this._storageToState(storageState));
+      const storageState = mapValues(state, value => {
+        try {
+          return JSON.parse(value);
+        } catch {
+          return value;
+        }
+      });
+      f(this._storageToState(storageState as Storage));
     });
   }
 }
