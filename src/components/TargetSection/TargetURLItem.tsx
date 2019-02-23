@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Segment, Grid, Header, Icon } from "semantic-ui-react";
+import { Segment, Grid, Header, Icon, Item } from "semantic-ui-react";
 import AppStateContext from "../AppStateContext";
+import { hostname } from "os";
 
 export interface TargetURLItemProps {
   targetURL: URL;
@@ -23,6 +24,7 @@ const TargetURLItem = ({ targetURL }: TargetURLItemProps) => {
           }}
         >
           <Header>{targetURL.hostname}</Header>
+          {targetURL.pathname}
         </Grid.Column>
         <Grid.Column size="mini" width={3}>
           <Icon link name="edit" onClick={clearTargetURL} />
