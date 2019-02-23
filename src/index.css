@@ -2,3 +2,7 @@ html,
 html *:not(i) {
   font-family: "Inconsolata", monospace !important;
 }
+
+.title {
+  font-family: "Pacifico", cursive !important;
+}

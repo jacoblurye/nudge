@@ -20,7 +20,9 @@ const Layout = () => {
       <Grid padded columns={2}>
         <Grid.Row verticalAlign="middle">
           <Grid.Column>
-            <Header size="medium">Nudge</Header>
+            <Header size="large" className="title">
+              Nudge
+            </Header>
           </Grid.Column>
           <Grid.Column floated="right">
             <Checkbox
