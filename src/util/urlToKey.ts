@@ -5,4 +5,11 @@
  */
 const urlToKey = (url: URL): string => url.host;
 
+export const isSamePage = (current: URL, target: URL) => {
+  const curKey = urlToKey(current);
+  const tarKey = urlToKey(target);
+
+  return curKey === tarKey || curKey.endsWith(tarKey);
+};
+
 export default urlToKey;

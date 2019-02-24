@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Button, Header, Loader, Icon } from "semantic-ui-react";
-import urlToKey from "../../util/urlToKey";
+import urlToKey, { isSamePage } from "../../util/urlToKey";
 import useCurrentURL from "../../hooks/useCurrentURL";
 import AppStateContext from "../AppStateContext";
 import BlockedURLModal from "./BlockedURLModal";
@@ -20,9 +20,8 @@ const BlockedSection = () => {
 
   if (!currentURL) return <Loader active />;
 
-  const currentIsTarget =
-    targetURL && urlToKey(currentURL) === urlToKey(targetURL);
   const currentIsBlocked = blockedURLs.contains(currentURL);
+  const currentIsTarget = targetURL && isSamePage(currentURL, targetURL);
 
   const thisPage = (
     <div style={{ textDecoration: "underline" }}>{urlToKey(currentURL)}</div>
