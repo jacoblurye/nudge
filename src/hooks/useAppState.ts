@@ -4,7 +4,7 @@ import { Client, AppState } from "../types";
 import { AppStateProps } from "../components/AppStateContext";
 
 export const initState = {
-  loaded: true,
+  loaded: false,
   enabled: true,
   blockedURLs: new URLCollection([]),
   targetURL: undefined
