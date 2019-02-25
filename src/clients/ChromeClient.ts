@@ -14,9 +14,8 @@ export interface BrowserStorage {
   set: (val: any, f?: () => void) => void;
   clear: Callback<() => void>;
 }
-``;
 
-export default class ChromeClient {
+export default class ChromeClient implements Client {
   private chromeStorage: BrowserStorage;
   constructor(chromeStorage: BrowserStorage) {
     this.chromeStorage = chromeStorage;
