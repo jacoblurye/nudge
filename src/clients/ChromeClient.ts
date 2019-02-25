@@ -16,13 +16,13 @@ export interface BrowserStorage {
 }
 ``;
 
-export default class ChromeClient implements Client {
-  chromeStorage: BrowserStorage;
+export default class ChromeClient {
+  private chromeStorage: BrowserStorage;
   constructor(chromeStorage: BrowserStorage) {
     this.chromeStorage = chromeStorage;
   }
 
-  _stateToStorage(state: AppState): Storage {
+  private stateToStorage(state: AppState): Storage {
     const enabled = state.enabled;
     const targetURL = state.targetURL ? state.targetURL.href : undefined;
     const blockedURLs = state.blockedURLs.toObject();
@@ -30,11 +30,11 @@ export default class ChromeClient implements Client {
   }
 
   set(state: AppState) {
-    const storage = this._stateToStorage(state);
+    const storage = this.stateToStorage(state);
     this.chromeStorage.clear(() => this.chromeStorage.set(storage));
   }
 
-  _storageToState({
+  private storageToState({
     loaded,
     enabled,
     targetURL,
@@ -69,7 +69,7 @@ export default class ChromeClient implements Client {
             return value;
           }
         });
-        f(this._storageToState(storageState as Storage));
+        f(this.storageToState(storageState as Storage));
       }
     });
   }
