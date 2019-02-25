@@ -9,7 +9,19 @@ interface Storage {
   [blockedURL: string]: any;
 }
 
+export interface BrowserStorage {
+  get: Callback<Callback<any>>;
+  set: (val: any, f?: () => void) => void;
+  clear: Callback<() => void>;
+}
+``;
+
 export default class ChromeClient implements Client {
+  chromeStorage: BrowserStorage;
+  constructor(chromeStorage: BrowserStorage) {
+    this.chromeStorage = chromeStorage;
+  }
+
   _stateToStorage(state: AppState): Storage {
     const enabled = state.enabled;
     const targetURL = state.targetURL ? state.targetURL.href : undefined;
@@ -19,7 +31,7 @@ export default class ChromeClient implements Client {
 
   set(state: AppState) {
     const storage = this._stateToStorage(state);
-    chrome.storage.sync.clear(() => chrome.storage.sync.set(storage));
+    this.chromeStorage.clear(() => this.chromeStorage.set(storage));
   }
 
   _storageToState({
@@ -42,20 +54,23 @@ export default class ChromeClient implements Client {
   }
 
   get(f: Callback<AppState>) {
-    chrome.storage.sync.get(state => {
-      // state hasn't been set yet, so initialize it
-      if (!state) {
+    this.chromeStorage.get(state => {
+      // state hasn't been set yet (is an empty object),
+      // so we initialize it and set loaded to true
+      if (Object.entries(state).length === 0) {
         this.set(initState);
-        f(initState);
+        f({ ...initState, loaded: true });
+        return;
+      } else {
+        const storageState = mapValues(state, value => {
+          try {
+            return JSON.parse(value);
+          } catch {
+            return value;
+          }
+        });
+        f(this._storageToState(storageState as Storage));
       }
-      const storageState = mapValues(state, value => {
-        try {
-          return JSON.parse(value);
-        } catch {
-          return value;
-        }
-      });
-      f(this._storageToState(storageState as Storage));
     });
   }
 }
