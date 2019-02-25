@@ -2,6 +2,8 @@
 
 A browser extension that redirects distracting webpages to the one you want to focus on.
 
+[Add to Firefox](https://addons.mozilla.org/en-US/firefox/addon/nudge-me/)
+
 ## Local Development
 
 Install dependencies and start the hot-reloading server:
