@@ -2,7 +2,8 @@
 
 A browser extension that redirects distracting webpages to the one you want to focus on.
 
-[Add to Firefox](https://addons.mozilla.org/en-US/firefox/addon/nudge-me/)
+[Add to Firefox](https://addons.mozilla.org/en-US/firefox/addon/nudge-me/)     
+[Add to Chrome](https://chrome.google.com/webstore/detail/nudge/iekkajdeacpnlcgoblbcpnpfpjnhgkib?authuser=1)
 
 ## Local Development
 
